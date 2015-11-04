@@ -60,7 +60,7 @@ getMaybeValidQueenInQueens boardsize queens queen =
     isDifferentDiags (a1, a2) (b1, b2) = if (a1 == b1 && a2 == b2) then False else True
 
 data ValidQueenAddition : Nat -> Queens n -> MaybeValidQueen -> Type where
-  MkValidQueenAddition : (boardsize: Nat) -> (queens: Queens n) -> (queen: Queen) ->
+  MkValidQueenAddition : (boardsize : Nat) -> (queens : Queens n) -> (queen : Queen) ->
     let
       maybeValidQueen = getMaybeValidQueenInQueens boardsize queens queen
     in
@@ -70,19 +70,19 @@ data ValidQueenAddition : Nat -> Queens n -> MaybeValidQueen -> Type where
 
 data ValidQueens : Nat -> Queens n -> Type where
   EmptyValidBoundQueens :
-    (boardsize: Nat) ->
+    (boardsize : Nat) ->
     ValidQueens boardsize []
   ExtendValidBoundQueens :
-    (boardsize: Nat) ->
-    (validQueens: ValidQueens boardsize queens) ->
-    (validQueenAddition: (ValidQueenAddition boardsize queens (ValidQueen queen))) ->
+    (boardsize : Nat) ->
+    (validQueens : ValidQueens boardsize queens) ->
+    (validQueenAddition : (ValidQueenAddition boardsize queens (ValidQueen queen))) ->
       ValidQueens boardsize (queen :: queens)
 
 data NQueens : Queens n -> Type where
   MkNQueens :
-    {n: Nat} ->
-    {queens: Queens n} ->
-    (validQueens: ValidQueens n queens) ->
+    {n : Nat} ->
+    {queens : Queens n} ->
+    (validQueens : ValidQueens n queens) ->
       NQueens queens
 
 -- (Compile) Tests
