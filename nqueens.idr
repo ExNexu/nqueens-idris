@@ -67,8 +67,8 @@ data ValidQueenAddition : Nat -> Queens n -> MaybeValidQueen -> Type where
 -- Constructing NQueens
 
 data ValidQueens : Nat -> Queens n -> Type where
-  EmptyValidBoundQueens : (boardsize : Nat) -> ValidQueens boardsize []
-  ExtendValidBoundQueens :
+  EmptyValidQueens : (boardsize : Nat) -> ValidQueens boardsize []
+  ExtendValidQueens :
     (boardsize : Nat) ->
     (validQueens : ValidQueens boardsize queens) ->
     (validQueenAddition : (ValidQueenAddition boardsize queens (ValidQueen queen))) ->
@@ -92,20 +92,20 @@ queen4 : Queen
 queen4 = (0, 1)
 
 validQueens1 : ValidQueens 4 [queen1]
-validQueens1 = ExtendValidBoundQueens _ (EmptyValidBoundQueens _) (MkValidQueenAddition _ _ queen1)
+validQueens1 = ExtendValidQueens _ (EmptyValidQueens _) (MkValidQueenAddition _ _ queen1)
 
 validQueens2 : ValidQueens 4 [queen2, queen1]
-validQueens2 = ExtendValidBoundQueens _ validQueens1 (MkValidQueenAddition _ _ queen2)
+validQueens2 = ExtendValidQueens _ validQueens1 (MkValidQueenAddition _ _ queen2)
 
 validQueens3 : ValidQueens 4 [queen3, queen2, queen1]
-validQueens3 = ExtendValidBoundQueens _ validQueens2 (MkValidQueenAddition _ _ queen3)
+validQueens3 = ExtendValidQueens _ validQueens2 (MkValidQueenAddition _ _ queen3)
 
 validQueens4 : ValidQueens 4 [queen4, queen3, queen2, queen1]
-validQueens4 = ExtendValidBoundQueens _ validQueens3 (MkValidQueenAddition _ _ queen4)
+validQueens4 = ExtendValidQueens _ validQueens3 (MkValidQueenAddition _ _ queen4)
 
 -- Error! :-)
 --validQueens5 : ValidQueens 4 [(99, 44), queen4, queen3, queen2, queen1]
---validQueens5 = ExtendValidBoundQueens _ validQueens4 (MkValidQueenAddition _ _ (99, 44))
+--validQueens5 = ExtendValidQueens _ validQueens4 (MkValidQueenAddition _ _ (99, 44))
 
 nQueens4 : NQueens [queen4, queen3, queen2, queen1]
 nQueens4 = MkNQueens validQueens4
