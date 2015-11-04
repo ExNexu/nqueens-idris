@@ -27,10 +27,8 @@ Queens n = Vect n Queen
 -- Helper methods
 
 forAllPairsWithList : List a -> a -> (a -> a -> Bool) -> Bool
-forAllPairsWithList [] element p =
-  True
-forAllPairsWithList (x :: xs) element p =
-  if p element x then forAllPairsWithList xs element p else False
+forAllPairsWithList [] element p = True
+forAllPairsWithList (x :: xs) element p = if p element x then forAllPairsWithList xs element p else False
 
 -- ValidQueens
 
@@ -69,9 +67,7 @@ data ValidQueenAddition : Nat -> Queens n -> MaybeValidQueen -> Type where
 -- Constructing NQueens
 
 data ValidQueens : Nat -> Queens n -> Type where
-  EmptyValidBoundQueens :
-    (boardsize : Nat) ->
-    ValidQueens boardsize []
+  EmptyValidBoundQueens : (boardsize : Nat) -> ValidQueens boardsize []
   ExtendValidBoundQueens :
     (boardsize : Nat) ->
     (validQueens : ValidQueens boardsize queens) ->
@@ -79,11 +75,7 @@ data ValidQueens : Nat -> Queens n -> Type where
       ValidQueens boardsize (queen :: queens)
 
 data NQueens : Queens n -> Type where
-  MkNQueens :
-    {n : Nat} ->
-    {queens : Queens n} ->
-    (validQueens : ValidQueens n queens) ->
-      NQueens queens
+  MkNQueens : {n : Nat} -> {queens : Queens n} -> (validQueens : ValidQueens n queens) -> NQueens queens
 
 -- (Compile) Tests
 
