@@ -57,10 +57,20 @@ isValidNQueens {n=boardsize} queens =
     isDifferentCols : Queen -> Queen -> Bool
     isDifferentCols (a1, a2) (b1, b2) = a2 /= b2
 
+    -- False if they're on the same diagonale looking from 0/0 to n/n; True otherwise
+    isDifferentDiags1 : Queen -> Queen -> Bool
+    isDifferentDiags1 ((S a1), (S a2)) b = assert_total (isDifferentDiags1 (a1, a2) b) -- meh
+    isDifferentDiags1 a ((S b1), (S b2)) = assert_total (isDifferentDiags1 a (b1, b2)) -- meh
+    isDifferentDiags1 (a1, a2) (b1, b2) = if (a1 == b1 && a2 == b2) then False else True
+
+    -- False if they're on the same diagonale looking from 0/n to n/0; True otherwise
+    isDifferentDiags2 : Queen -> Queen -> Bool
+    isDifferentDiags2 ((S a1), a2) (b1, (S b2)) = assert_total (isDifferentDiags2 (a1, a2) (b1, b2)) -- meh
+    isDifferentDiags2 (a1, (S a2)) ((S b1), b2) = assert_total (isDifferentDiags2 (a1, a2) (b1, b2)) -- meh
+    isDifferentDiags2 (a1, a2) (b1, b2) = if (a1 == b1 && a2 == b2) then False else True
+
     isDifferentDiags : Queen -> Queen -> Bool
-    isDifferentDiags ((S a1), (S a2)) b = assert_total (isDifferentDiags (a1, a2) b) -- meh
-    isDifferentDiags a ((S b1), (S b2)) = assert_total (isDifferentDiags a (b1, b2)) -- meh
-    isDifferentDiags (a1, a2) (b1, b2) = if (a1 == b1 && a2 == b2) then False else True
+    isDifferentDiags a b = (isDifferentDiags1 a b) && (isDifferentDiags2 a b)
 
 data NQueens : Boardsize -> IsValid -> Type where
   MkNQueens : (queens : Queens n) -> NQueens n (isValidNQueens queens)
@@ -87,6 +97,9 @@ nQueens4 = MkNQueens [queen1, queen2, queen3, queen4]
 
 invalidNQueens4 : NQueens 4 Invalid
 invalidNQueens4 = MkNQueens [queen1, (3, 3), queen3, queen4]
+
+invalidNQueens4b : NQueens 4 Invalid
+invalidNQueens4b = MkNQueens [(2, 2), (3, 0), queen3, queen4]
 
 ---- Does not compile! :-)
 --invalidNQueens1Error : NQueens 1 Invalid
