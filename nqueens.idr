@@ -77,7 +77,11 @@ data NQueens : Boardsize -> IsValid -> Type where
   MkInvalidNQueens : (n : Nat) -> NQueens n Invalid
 
 instance Show (NQueens n isValid) where
-  show (MkNQueens queens) = (show (length queens)) ++ "-Queens " ++ (show queens)
+  show (MkNQueens queens) =
+    if (isValidNQueens queens) then -- meh
+      (show (length queens)) ++ "-Queens " ++ (show queens)
+    else
+      "Invalid " ++ (show (length queens)) ++ "-Queens"
   show (MkInvalidNQueens n) = "Invalid " ++ (show n) ++ "-Queens"
 
 -- (Compile) Tests
