@@ -1,3 +1,4 @@
+-- Idris 0.9.20
 module Main
 
 import data.Vect
